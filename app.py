@@ -245,7 +245,7 @@ Busca activamente en internet para verificar cada herramienta antes de incluirla
 Responde SOLO con el JSON."""
 
     model = genai.GenerativeModel(
-        model_name="gemini-2.0-flash",
+        model_name="gemini-2.5-flash-lite",
     
         system_instruction=SYSTEM_PROMPT,
     )
