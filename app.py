@@ -543,20 +543,20 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-with st.expander("🔑 Configurar API Key de Gemini", expanded="gemini_key" not in st.session_state):
-   api_key = st.secrets.get("GEMINI_API_KEY", "")
+import streamlit as st
+import google.generativeai as genai
+
+
+api_key = st.secrets.get("GEMINI_API_KEY", "")
 
 if not api_key:
     st.error("Falta configurar GEMINI_API_KEY en Streamlit Secrets.")
+    st.info('En Secrets pega: GEMINI_API_KEY = "tu_clave_real"')
     st.stop()
-        placeholder="AIza...",
-        help="Obtén tu clave gratuita en https://aistudio.google.com/apikey"
-    )
-    if api_key_input:
-        st.session_state["gemini_key"] = api_key_input
-        st.success("✅ API Key guardada para esta sesión")
 
-api_key = st.session_state.get("gemini_key", "")
+genai.configure(api_key=api_key)
+
+model = genai.GenerativeModel("gemini-2.5-flash-lite")      
 
 st.markdown('<div class="section-label">01 — Dossier académico (PDF, TXT o DOCX)</div>', unsafe_allow_html=True)
 uploaded = st.file_uploader(
