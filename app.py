@@ -544,9 +544,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 with st.expander("🔑 Configurar API Key de Gemini", expanded="gemini_key" not in st.session_state):
-    api_key_input = st.text_input(
-        "Google Gemini API Key",
-        type="password",
+   api_key = st.secrets.get("GEMINI_API_KEY", "")
+
+if not api_key:
+    st.error("Falta configurar GEMINI_API_KEY en Streamlit Secrets.")
+    st.stop()
         placeholder="AIza...",
         help="Obtén tu clave gratuita en https://aistudio.google.com/apikey"
     )
