@@ -28,6 +28,36 @@ div[data-testid="stMainBlockContainer"] { background: transparent !important; }
 .block-container > div { background: transparent !important; border-radius: 0 !important; box-shadow: none !important; padding: 0 !important; }
 
 
+/* ── Hero ── */
+.aria-hero {
+    padding: 52px 36px 44px;
+    text-align: center;
+    margin-bottom: 0;
+}
+.aria-eyebrow {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 100px; padding: 5px 16px;
+    font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,0.9);
+    text-transform: uppercase; font-weight: 600; margin-bottom: 18px;
+}
+.aria-title {
+    font-family: "DM Serif Display", serif;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    color: #ffffff; margin: 0 0 10px;
+    line-height: 1.1; letter-spacing: -1px;
+    text-align: center;
+}
+.aria-title em { font-style: italic; color: #BEE3FF; }
+.aria-sub {
+    font-size: 1rem; color: rgba(255,255,255,0.72);
+    font-weight: 300; max-width: 480px;
+    margin: 0 auto; line-height: 1.6;
+    text-align: center;
+}
+
+
 /* ── Section labels ── */
 .slabel {
     font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
