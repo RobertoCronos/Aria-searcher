@@ -412,57 +412,55 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ── Contenedor blanco principal
-with st.container():
-    st.markdown('<div class="main-panel">', unsafe_allow_html=True)
+# API Key desde Secrets (sin contenedor visible)
+if "gemini_key" not in st.session_state:
+    secret_key = st.secrets.get("GEMINI_API_KEY", "")
+    if secret_key:
+        st.session_state["gemini_key"] = secret_key
 
-    # API Key
-    if "gemini_key" not in st.session_state:
-        secret_key = st.secrets.get("GEMINI_API_KEY", "")
-        if secret_key:
-            st.session_state["gemini_key"] = secret_key
+if not st.session_state.get("gemini_key"):
+    with st.expander("🔑 Configurar API Key de Gemini", expanded=True):
+        k = st.text_input("Google Gemini API Key", type="password", placeholder="AIza...")
+        if k:
+            st.session_state["gemini_key"] = k
+            st.success("✅ API Key guardada")
 
-    if not st.session_state.get("gemini_key"):
-        with st.expander("🔑 Configurar API Key de Gemini", expanded=True):
-            k = st.text_input("Google Gemini API Key", type="password", placeholder="AIza...")
-            if k:
-                st.session_state["gemini_key"] = k
-                st.success("✅ API Key guardada")
+api_key = st.session_state.get("gemini_key", "")
 
-    api_key = st.session_state.get("gemini_key", "")
+st.markdown('<div class="main-panel">', unsafe_allow_html=True)
 
-    st.markdown('<span class="slabel">01 — Dossier académico</span>', unsafe_allow_html=True)
-    uploaded = st.file_uploader("Dossier", type=["pdf","txt","docx"], label_visibility="collapsed")
+st.markdown('<span class="slabel">01 — Dossier académico</span>', unsafe_allow_html=True)
+uploaded = st.file_uploader("Dossier", type=["pdf","txt","docx"], label_visibility="collapsed")
 
-    st.markdown('<div style="height:14px"></div>', unsafe_allow_html=True)
-    st.markdown('<span class="slabel">02 — Área o contexto del programa</span>', unsafe_allow_html=True)
-    user_context = st.text_area("Contexto", label_visibility="collapsed",
-        placeholder="Ej: Maestría en Administración de Hospitales, orientada a directivos de clínicas privadas en México...",
-        height=100)
+st.markdown('<div style="height:14px"></div>', unsafe_allow_html=True)
+st.markdown('<span class="slabel">02 — Área o contexto del programa</span>', unsafe_allow_html=True)
+user_context = st.text_area("Contexto", label_visibility="collapsed",
+    placeholder="Ej: Maestría en Administración de Hospitales, orientada a directivos de clínicas privadas en México...",
+    height=100)
 
-    st.markdown('<div style="height:8px"></div>', unsafe_allow_html=True)
+st.markdown('<div style="height:8px"></div>', unsafe_allow_html=True)
 
-    if st.button("🔍  Generar portafolio de licencias académicas", use_container_width=True):
-        if not api_key:
-            st.error("⚠️ Configura tu API Key de Gemini.")
-        elif not uploaded and not user_context:
-            st.warning("Sube el dossier o describe el contexto del programa.")
-        else:
-            dossier_text = extract_text(uploaded) if uploaded else ""
-            with st.spinner("Analizando dossier y construyendo portafolio... esto puede tomar 30–60 segundos"):
-                try:
-                    result = call_gemini(api_key, dossier_text, user_context)
-                except Exception as e:
-                    st.error(f"Error al consultar Gemini: {e}")
-                    st.stop()
-            if not result.get("portafolio"):
-                st.warning("No se obtuvieron resultados. Intenta con otro contexto o dossier.")
-                if result.get("_raw"):
-                    with st.expander("Respuesta cruda"): st.text(result["_raw"])
+if st.button("🔍  Generar portafolio de licencias académicas", use_container_width=True):
+    if not api_key:
+        st.error("⚠️ Configura tu API Key de Gemini.")
+    elif not uploaded and not user_context:
+        st.warning("Sube el dossier o describe el contexto del programa.")
+    else:
+        dossier_text = extract_text(uploaded) if uploaded else ""
+        with st.spinner("Analizando dossier y construyendo portafolio... esto puede tomar 30–60 segundos"):
+            try:
+                result = call_gemini(api_key, dossier_text, user_context)
+            except Exception as e:
+                st.error(f"Error al consultar Gemini: {e}")
                 st.stop()
-            st.session_state["result"] = result
+        if not result.get("portafolio"):
+            st.warning("No se obtuvieron resultados. Intenta con otro contexto o dossier.")
+            if result.get("_raw"):
+                with st.expander("Respuesta cruda"): st.text(result["_raw"])
+            st.stop()
+        st.session_state["result"] = result
 
-    st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
 # ── Results ──────────────────────────────────────────────────────────
 if "result" in st.session_state:
