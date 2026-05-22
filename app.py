@@ -50,12 +50,11 @@ body { background: #EEF4FF; }
 }
 
 /* ── Main panel ── */
-.main-panel {
+.block-container > div:first-child {
     background: #ffffff;
     border-radius: 24px;
-    padding: 36px 40px;
+    padding: 36px 40px !important;
     margin-top: 0;
-    box-shadow: 0 20px 60px rgba(21,101,200,0.18), 0 4px 16px rgba(0,0,0,0.06);
 }
 
 /* ── Section labels ── */
@@ -423,19 +422,16 @@ if not api_key:
     st.error("API Key no configurada. Agrega GEMINI_API_KEY en Streamlit Secrets.")
     st.stop()
 
-st.markdown('<div class="main-panel">', unsafe_allow_html=True)
 
 
 st.markdown('<span class="slabel">01 — Dossier académico</span>', unsafe_allow_html=True)
 uploaded = st.file_uploader("Dossier", type=["pdf","txt","docx"], label_visibility="collapsed")
 
-st.markdown('<div style="height:14px"></div>', unsafe_allow_html=True)
 st.markdown('<span class="slabel">02 — Área o contexto del programa</span>', unsafe_allow_html=True)
 user_context = st.text_area("Contexto", label_visibility="collapsed",
     placeholder="Ej: Maestría en Administración de Hospitales, orientada a directivos de clínicas privadas en México...",
     height=100)
 
-st.markdown('<div style="height:8px"></div>', unsafe_allow_html=True)
 
 if st.button("🔍  Generar portafolio de licencias académicas", use_container_width=True):
     if not api_key:
@@ -457,7 +453,6 @@ if st.button("🔍  Generar portafolio de licencias académicas", use_container_
             st.stop()
         st.session_state["result"] = result
 
-st.markdown('</div>', unsafe_allow_html=True)
 
 # ── Results ──────────────────────────────────────────────────────────
 if "result" in st.session_state:
