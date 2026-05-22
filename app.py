@@ -14,48 +14,19 @@ st.markdown("""
 
 html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 #MainMenu, footer, header { visibility: hidden; }
-.block-container { padding-top: 0 !important; padding-bottom: 3rem; max-width: 860px; }
+.block-container {
+    padding-top: 0 !important;
+    padding-bottom: 3rem;
+    max-width: 860px;
+    background: transparent !important;
+}
 
 /* ── Background ── */
-body { background: #EEF4FF; }
 .stApp { background: linear-gradient(160deg, #1A7FE8 0%, #1565C8 30%, #EEF4FF 60%); min-height: 100vh; }
+section[data-testid="stMain"] { background: transparent !important; }
+div[data-testid="stMainBlockContainer"] { background: transparent !important; }
+.block-container > div { background: transparent !important; border-radius: 0 !important; box-shadow: none !important; padding: 0 !important; }
 
-/* ── Hero header ── */
-.aria-hero {
-    padding: 52px 36px 44px;
-    text-align: center;
-    margin-bottom: 0;
-}
-.aria-eyebrow {
-    display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.35);
-    border-radius: 100px; padding: 5px 16px;
-    font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,0.9);
-    text-transform: uppercase; font-weight: 600; margin-bottom: 18px;
-}
-.aria-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2.4rem, 6vw, 3.6rem);
-    color: #ffffff;
-    margin: 0 0 10px;
-    line-height: 1.1;
-    letter-spacing: -1px;
-}
-.aria-title em { font-style: italic; color: #BEE3FF; }
-.aria-sub {
-    font-size: 1rem; color: rgba(255,255,255,0.72);
-    font-weight: 300; max-width: 480px; margin: 0 auto;
-    line-height: 1.6;
-}
-
-/* ── Main panel ── */
-.block-container > div:first-child {
-    background: #ffffff;
-    border-radius: 24px;
-    padding: 36px 40px !important;
-    margin-top: 0;
-}
 
 /* ── Section labels ── */
 .slabel {
