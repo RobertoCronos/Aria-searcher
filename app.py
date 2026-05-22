@@ -412,22 +412,19 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# API Key desde Secrets (sin contenedor visible)
+# API Key desde Secrets — silencioso, sin UI visible
 if "gemini_key" not in st.session_state:
     secret_key = st.secrets.get("GEMINI_API_KEY", "")
     if secret_key:
         st.session_state["gemini_key"] = secret_key
 
-if not st.session_state.get("gemini_key"):
-    with st.expander("🔑 Configurar API Key de Gemini", expanded=True):
-        k = st.text_input("Google Gemini API Key", type="password", placeholder="AIza...")
-        if k:
-            st.session_state["gemini_key"] = k
-            st.success("✅ API Key guardada")
-
 api_key = st.session_state.get("gemini_key", "")
+if not api_key:
+    st.error("API Key no configurada. Agrega GEMINI_API_KEY en Streamlit Secrets.")
+    st.stop()
 
 st.markdown('<div class="main-panel">', unsafe_allow_html=True)
+
 
 st.markdown('<span class="slabel">01 — Dossier académico</span>', unsafe_allow_html=True)
 uploaded = st.file_uploader("Dossier", type=["pdf","txt","docx"], label_visibility="collapsed")
